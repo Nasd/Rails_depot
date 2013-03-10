@@ -48,4 +48,15 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_equal "has already been taken", product.errors[:title].join('; ')
   end
+
+  test "product is not valid when title less ten length" do
+    product = Product.new(title: "ruby", description: "yyy", price: 1, image_url: "fred.gif")
+
+    assert product.invalid?
+    assert_equal "must be at least ten characters long.", product.errors[:title].join('; ')
+
+    product = Product.new(title: "ten tententen", description: "yyy", price: 1, image_url: "fred.gif")
+    assert product.valid?
+  end
+
 end
